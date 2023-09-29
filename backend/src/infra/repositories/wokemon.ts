@@ -1,7 +1,15 @@
 import knex from "knex";
 import { connection } from "../database";
-import { SqlWhereClause, Transaction } from "../../domain/types";
-import { objectToDbRow } from "../../modules/database/mapper";
+import {
+  DbRow,
+  DbTransaction,
+  ObjectToDbTypeMapper,
+  SqlWhereClause,
+  Transaction,
+  TransactionCallBack,
+} from "../../domain/types";
+import { dbRowToObject, objectToDbRow } from "../../modules/database/mapper";
+import { filter, map, prop } from "ramda";
 
 const create = <ObjectType extends Object>(
   database: Transaction,
@@ -15,10 +23,22 @@ const create = <ObjectType extends Object>(
     //field: keyof DbRowType;
   }
 ) => {
- console.log('#########################  HERE  #########################')
   const rows = objectToDbRow(data);
-  console.log({ rows,data  })
-  return database(async (tsx) =>await  tsx.table(table).insert(rows));
+  return database(async (tsx) => await tsx.table(table).insert(rows));
 };
 
-export { create };
+const getAll = async <Type extends Object>(
+  database: Transaction,
+  {
+    table,
+  }: {
+    table: string;
+  }
+) => {
+  const rows = await database<ObjectToDbTypeMapper<Type>[]>((tsx) =>
+    tsx.table(table).select("*")
+  );
+  return map(dbRowToObject, rows);
+};
+
+export { create, getAll };

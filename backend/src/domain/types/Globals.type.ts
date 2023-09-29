@@ -1,3 +1,13 @@
+import { Transaction } from "./Database.type";
+
+declare global {
+  namespace Express {
+    export interface Request {
+      database: Transaction;
+    }
+  }
+}
+
 type ObjectValue<T> = T[keyof T];
 type ObjectKeysToArray<T> = (keyof T)[];
 
@@ -18,5 +28,5 @@ export {
   ObjectValue,
   CamelCaseToSnakeCaseTypeKeys,
   ObjectToDbTypeMapper,
-  ArrayInsideType
+  ArrayInsideType,
 };
