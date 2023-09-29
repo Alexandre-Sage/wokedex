@@ -37,6 +37,7 @@ const getTestKnex = (connection: any) =>
   });
 
 const testEnv = async () => {
+  process.env.ENV = "test";
   chai.use(chaiHttp);
   const { dbConnection, container } = await postgresContainer();
   const postgres = getTestKnex(dbConnection);

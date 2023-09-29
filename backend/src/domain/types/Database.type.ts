@@ -9,7 +9,7 @@ interface Mapper<ObjectType, RowType> {
 }
 
 interface SqlWhereClause<RowType> {
-  columnName?: Extract<keyof RowType, string>;
+  columnName: Extract<keyof RowType, string>;
   operator?: "=" | "<" | ">" | "<>" | "<=" | ">=";
   searchValue: Knex.Value;
   selectedField?: ObjectKeysToArray<RowType>;

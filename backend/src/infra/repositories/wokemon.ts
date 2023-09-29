@@ -7,38 +7,34 @@ import {
   SqlWhereClause,
   Transaction,
   TransactionCallBack,
+  Wokemon,
+  WokemonId,
+  WokemonRow,
 } from "../../domain/types";
 import { dbRowToObject, objectToDbRow } from "../../modules/database/mapper";
 import { filter, map, prop } from "ramda";
+import { create, getAll, getOne } from ".";
+const table = "wokemons";
 
-const create = <ObjectType extends Object>(
-  database: Transaction,
-  {
-    data,
+const createWokemon = (database: Transaction, wokemon: Wokemon) =>
+  create(database, {
     table,
-  }: {
-    table: string;
-    data: ObjectType;
-    //where: SqlWhereClause<ObjectType>;
-    //field: keyof DbRowType;
-  }
-) => {
-  const rows = objectToDbRow(data);
-  return database(async (tsx) => await tsx.table(table).insert(rows));
-};
+    data: wokemon,
+  });
 
-const getAll = async <Type extends Object>(
-  database: Transaction,
-  {
+const getAllWokemon = (database: Transaction) =>
+  getAll<Wokemon>(database, {
     table,
-  }: {
-    table: string;
-  }
-) => {
-  const rows = await database<ObjectToDbTypeMapper<Type>[]>((tsx) =>
-    tsx.table(table).select("*")
-  );
-  return map(dbRowToObject, rows);
-};
+  });
 
-export { create, getAll };
+const getWokemonById = (database: Transaction, id: WokemonId) =>
+  getOne<Wokemon, WokemonRow>(database, {
+    table,
+    where: {
+      searchValue: id,
+      columnName: "id",
+      operator: "=",
+    },
+  });
+
+export { createWokemon, getAllWokemon, getWokemonById };

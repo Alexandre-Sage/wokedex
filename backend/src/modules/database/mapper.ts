@@ -31,7 +31,7 @@ const objectToDbRow = <
     .reduce((acc, cur) => (acc = { ...acc, ...cur })) as RowType;
 
 const dbRowToObject = <
-  Type extends Object,
+  Type,
   RowType extends ObjectToDbTypeMapper<Type>
 >(
   row: RowType

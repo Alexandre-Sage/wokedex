@@ -1,9 +1,11 @@
 import { randomUUID } from "crypto";
-import { create, getAll } from "../../infra/repositories";
-import { Transaction, Wokemon } from "../types";
-import { ZodWokemon } from "../validation";
-const table = "wokemons";
-const createWokemon = async (
+import { Transaction, Wokemon, WokemonId } from "../types";
+import {
+  createWokemon,
+  getAllWokemon,
+  getWokemonById,
+} from "../../infra/repositories";
+const create = async (
   database: Transaction,
   {
     description,
@@ -22,15 +24,11 @@ const createWokemon = async (
     weight,
     number: 0,
   };
-  return create(database, {
-    table,
-    data: newWokemon,
-  });
+  return createWokemon(database, newWokemon);
 };
 
-const getAllWokemon = (database: Transaction) =>
-  getAll(database, {
-    table,
-  });
+const getAll = (database: Transaction) => getAllWokemon(database);
 
-export { createWokemon, getAllWokemon };
+const getById = (database: Transaction, id: WokemonId) =>
+  getWokemonById(database, id);
+export { create, getAll, getById };

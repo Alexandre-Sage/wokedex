@@ -1,1 +1,2 @@
-export * from "./wokemon"
+export * from "./wokemon";
+export * from "./functionalRepository";

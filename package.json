@@ -1,0 +1,14 @@
+{
+  "name": "wokeDex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:back": "cd backend && pnpm test",
+    "test:front":"",
+    "start:client":""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

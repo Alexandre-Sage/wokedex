@@ -1,16 +1,15 @@
 import { Router } from "express";
-import { httpStatus } from "../../modules/http";
-import { createWokemon, getAllWokemon } from "../../domain/services";
+import { create, getAll, getById } from "../../domain/services";
 import { ZodWokemon, zoddValidation } from "../../domain/validation";
+import { httpStatus } from "../../modules/http";
 
 const router = Router();
 const urlPrefix = "/wokemons";
 
 router.post(`${urlPrefix}`, async (req, res, next) => {
   try {
-    // const validation = await zoddPartialApplication(ZodWokemon);
     const validated = await zoddValidation(ZodWokemon, req.body.payload);
-    await createWokemon(req.database, validated);
+    await create(req.database, validated);
     res.status(httpStatus.CREATE).json({
       success: true,
     });
@@ -21,10 +20,22 @@ router.post(`${urlPrefix}`, async (req, res, next) => {
 
 router.get(`${urlPrefix}`, async (req, res, next) => {
   try {
-    const wokemons = await getAllWokemon(req.database);
+    const wokemons = await getAll(req.database);
     res.status(httpStatus.GET).json({
       success: true,
       payload: wokemons,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get(`${urlPrefix}/:id`, async (req, res, next) => {
+  try {
+    const wokemon = await getById(req.database, req.params.id);
+    res.status(httpStatus.GET).json({
+      success: true,
+      payload: wokemon,
     });
   } catch (error) {
     next(error);

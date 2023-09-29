@@ -31,12 +31,13 @@ const createApp = (database: Knex) => {
 
 const startServer = (serverInstance: Server) => (host: string, port: number) =>
   serverInstance.listen(port, host, () => {
-    console.table({
-      port,
-      host,
-      env: process.env.ENV,
-      status: "UP",
-    });
+    process.env.ENV === "development" &&
+      console.table({
+        port,
+        host,
+        env: process.env.ENV,
+        status: "UP",
+      });
   });
 
 const server = compose(startServer, createHttpServer, createApp);

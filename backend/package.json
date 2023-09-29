@@ -7,7 +7,7 @@
     "test": "tsc && vitest ./__test__/**/*.test.ts",
     "build": "rm -rf ./dist && tsc",
     "dev": "ts-node index.ts",
-    "start": "pnpm build && node ./dist/index.js"
+    "start": "export ENV=test && pnpm build && ENV=test node ./dist/index.js"
   },
   "keywords": [],
   "author": "",

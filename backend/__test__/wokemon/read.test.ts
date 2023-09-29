@@ -40,7 +40,7 @@ suite("Read wokemon suite", () => {
     );
     expect(ok).toBeTruthy();
   });
-  test.skip("Get by id", async () => {
+  test("Get by id", async () => {
     const { serverRequest } = env;
     const {
       status,
@@ -48,5 +48,6 @@ suite("Read wokemon suite", () => {
     } = await serverRequest.get(`/wokemons/${insertedIds[2]}`);
     expect(status).toEqual(200);
     expect(success).toBeTruthy();
+    expect(payload.id).toEqual(insertedIds[2])
   });
 });
