@@ -5,10 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test:back": "cd backend && pnpm test",
-    "test:front":"",
-    "start:client":""
+    "start:back:dev": "cd ./backend && pnpm start",
+    "test:front": "",
+    "start:client": ""
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "ramda": "^0.29.0"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.29.5"
+  }
 }

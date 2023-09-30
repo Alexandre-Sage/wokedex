@@ -154,6 +154,12 @@ export const baseType = [
     name_en: "faty",
     name_fr: "gros/grosse",
   },
+  {
+    id: randomUUID(),
+    created_at: new Date(),
+    name_en: "white",
+    name_fr: "blanc/blanche",
+  },
 ] as TypeRow[];
 
 export const typeById = indexBy(
