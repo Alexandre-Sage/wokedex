@@ -43,7 +43,9 @@ const testEnv = async () => {
   const postgres = getTestKnex(dbConnection);
   const db = connection(postgres);
   const app = server(postgres)("0.0.0.0", 0);
-  await db((tsx) => tsx.migrate.latest());
+  await db((tsx) => tsx.migrate.latest({
+    
+  }));
   return {
     databaseTransaction: db,
     server: app,

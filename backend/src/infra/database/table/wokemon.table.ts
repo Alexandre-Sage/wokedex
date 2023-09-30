@@ -1,7 +1,7 @@
 import { getColumns, getForeignKey } from "../../../modules/knex/columns";
 
 const wokemon = getColumns(
-  { name: "name", type: "string", nullable: false },
+  { name: "name", type: "string", nullable: false, unique: true },
   { name: "weight", type: "decimal", nullable: true },
   { name: "height", type: "decimal", nullable: true },
   { name: "description", type: "string", nullable: true },

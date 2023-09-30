@@ -18,12 +18,14 @@ const create = <ObjectType extends Object>(
     table,
   }: {
     table: string;
-    data: ObjectType;
+    data: ObjectType | ObjectType[];
     //where: SqlWhereClause<ObjectType>;
     //field: keyof DbRowType;
   }
 ) => {
-  const rows = objectToDbRow(data);
+  const rows = Array.isArray(data)
+    ? map(objectToDbRow, data)
+    : objectToDbRow(data);
   return database<void>(async (tsx) => await tsx.table(table).insert(rows));
 };
 

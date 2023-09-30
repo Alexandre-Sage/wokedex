@@ -1,22 +1,9 @@
-import { suite, test, expect, beforeEach } from "vitest";
-import { connection } from "../../src/infra/database";
-import { server } from "../../src/server";
-import chai from "chai";
-import chaiHttp from "chai-http";
-import {
-  DbTransaction,
-  Transaction,
-  Wokemon,
-  WokemonRow,
-} from "../../src/domain/types";
-import { randomUUID } from "crypto";
-import knex from "knex";
-import { setName } from "../../src/modules/lens";
-import { testEnv } from "../helpers/env";
-import { compose, includes, map, prop } from "ramda";
-import { objectToDbRow } from "../../src/modules/database/mapper";
+import { includes, map, prop } from "ramda";
+import { beforeEach, expect, suite, test } from "vitest";
+import { Wokemon } from "../../src/domain/types";
 import { WokemonBuilder } from "../helpers/builders";
-import { createDbWokemon, getDbWokemeonByName } from "../helpers/dbHelpers";
+import { createDbWokemon } from "../helpers/dbHelpers";
+import { testEnv } from "../helpers/env";
 
 suite("Read wokemon suite", () => {
   let env: Awaited<ReturnType<typeof testEnv>>;
@@ -48,6 +35,6 @@ suite("Read wokemon suite", () => {
     } = await serverRequest.get(`/wokemons/${insertedIds[2]}`);
     expect(status).toEqual(200);
     expect(success).toBeTruthy();
-    expect(payload.id).toEqual(insertedIds[2])
+    expect(payload.id).toEqual(insertedIds[2]);
   });
 });

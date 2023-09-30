@@ -1,2 +1,2 @@
 export * from "./wokemon";
-export * from "./types";
+export * from "./env"

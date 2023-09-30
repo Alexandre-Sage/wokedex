@@ -1,26 +1,11 @@
-import { suite, test, expect, beforeEach } from "vitest";
-import { connection } from "../../src/infra/database";
-import { server } from "../../src/server";
-import chai from "chai";
-import chaiHttp from "chai-http";
-import {
-  DbTransaction,
-  Transaction,
-  Wokemon,
-  WokemonRow,
-} from "../../src/domain/types";
-import { randomUUID } from "crypto";
-import knex from "knex";
+import { beforeEach, expect, suite, test } from "vitest";
+import { Wokemon } from "../../src/domain/types";
 import { setName } from "../../src/modules/lens";
-import { testEnv } from "../helpers/env";
-import { compose } from "ramda";
-import { objectToDbRow } from "../../src/modules/database/mapper";
 import { WokemonBuilder } from "../helpers/builders";
-import { getDbWokemeonByName } from "../helpers/dbHelpers";
-
-
-
-
+import { createDbWokemon, getDbWokemeonByName } from "../helpers/dbHelpers";
+import { testEnv } from "../helpers/env";
+import { getTypesIds } from "../helpers/dbHelpers/types";
+import { includes } from "ramda";
 
 suite("Create wokemon suite", () => {
   let env: Awaited<ReturnType<typeof testEnv>>;
@@ -31,7 +16,7 @@ suite("Create wokemon suite", () => {
   test("Create wokemon without error", async () => {
     const { databaseTransaction, server, serverRequest } = env;
     const { status, body } = await serverRequest.post("/wokemons").send({
-      payload: { ...newWokemon },
+      payload: { wokemon: newWokemon, types: [] },
     });
     const databaseEntry = await getDbWokemeonByName(
       newWokemon.name,
@@ -49,7 +34,7 @@ suite("Create wokemon suite", () => {
         payload: { error, message },
       },
     } = await serverRequest.post("/wokemons").send({
-      payload: { ...setName(newWokemon as Wokemon, "") },
+      payload: { wokemon: setName(newWokemon as Wokemon, ""), types: [] },
     });
     const databaseEntry = await getDbWokemeonByName(
       newWokemon.name,
@@ -70,7 +55,10 @@ suite("Create wokemon suite", () => {
         payload: { error, message },
       },
     } = await serverRequest.post("/wokemons").send({
-      payload: { ...setName(newWokemon, undefined as unknown as string) },
+      payload: {
+        wokemon: setName(newWokemon, undefined as unknown as string),
+        types: [],
+      },
     });
     const databaseEntry = await getDbWokemeonByName(
       newWokemon.name,
@@ -82,8 +70,15 @@ suite("Create wokemon suite", () => {
     expect(error).toBeTruthy();
     expect(message).toEqual("Invalid name");
   });
-  /* test("duplicate wokemon name", async () => {
+  test("duplicate wokemon name", async () => {
     const { databaseTransaction, server, serverRequest } = env;
+    const name = "TEST DUPLICATE";
+    await createDbWokemon(
+      WokemonBuilder.buildForDb({
+        name,
+      }),
+      databaseTransaction
+    );
     const {
       status,
       body: {
@@ -91,7 +86,30 @@ suite("Create wokemon suite", () => {
         payload: { error, message },
       },
     } = await serverRequest.post("/wokemons").send({
-      payload: { ...newWokemon },
+      payload: { wokemon: setName(newWokemon, name), types: [] },
     });
-  }); */
+    expect(message).toEqual("The name already exist");
+  });
+  test("Create wokemon with type", async () => {
+    const { databaseTransaction, server, serverRequest } = env;
+    const typeIds = await getTypesIds(databaseTransaction);
+    const { status, body } = await serverRequest.post("/wokemons").send({
+      payload: { wokemon: newWokemon, types: [typeIds[1], typeIds[2]] },
+    });
+    const databaseEntry = await getDbWokemeonByName(
+      newWokemon.name,
+      databaseTransaction
+    );
+    expect(databaseEntry.name).toEqual(newWokemon.name);
+    const wokemonTypes: any = await databaseTransaction((tsx) =>
+      tsx
+        .table("wokemons_types")
+        .select("*")
+        .where("wokemon_id", "=", databaseEntry.id)
+    );
+    expect(wokemonTypes).toHaveLength(2);
+    const ok = wokemonTypes.every((types: any) =>
+      includes(types.typeId, typeIds)
+    );
+  });
 });

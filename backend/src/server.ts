@@ -8,7 +8,7 @@ import { Knex } from "knex";
 import morgan from "morgan";
 import { compose } from "ramda";
 import { connection } from "./infra/database";
-import { wokemonRouter } from "./infra/router";
+import { typesRouter, wokemonRouter } from "./infra/router";
 import { errorMiddleware } from "./modules/middleware";
 
 const createApp = (database: Knex) => {
@@ -18,6 +18,7 @@ const createApp = (database: Knex) => {
   app.use(json({}));
   app.use(morgan("dev", {}));
   app.use(wokemonRouter);
+  app.use(typesRouter);
   app.use("/ping", (_, res) => {
     res.json({
       serverStatus: "UP",
@@ -25,7 +26,6 @@ const createApp = (database: Knex) => {
   });
 
   app.use(errorMiddleware);
-
   return app as ServerOptions;
 };
 

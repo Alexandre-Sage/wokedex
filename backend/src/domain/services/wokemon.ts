@@ -1,10 +1,12 @@
 import { randomUUID } from "crypto";
-import { Transaction, Wokemon, WokemonId } from "../types";
+import { Transaction, TypeId, Wokemon, WokemonId, WokemonType } from "../types";
 import {
+  createBatchWokemonType,
   createWokemon,
   getAllWokemon,
   getWokemonById,
 } from "../../infra/repositories";
+import { map } from "ramda";
 const create = async (
   database: Transaction,
   {
@@ -12,10 +14,12 @@ const create = async (
     height,
     name,
     weight,
-  }: Pick<Wokemon, "description" | "name" | "height" | "weight">
+  }: Pick<Wokemon, "description" | "name" | "height" | "weight">,
+  typeIds: TypeId[]
 ) => {
+  const id = randomUUID();
   const newWokemon: Wokemon = {
-    id: randomUUID(),
+    id,
     description,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -24,7 +28,16 @@ const create = async (
     weight,
     number: 0,
   };
-  return createWokemon(database, newWokemon);
+  const wokemonTypes = map<TypeId, WokemonType>(
+    (typeId) => ({
+      typeId,
+      wokemonId: id,
+      createdAt: new Date(),
+    }),
+    typeIds
+  );
+  await createWokemon(database, newWokemon);
+  await createBatchWokemonType(database, wokemonTypes);
 };
 
 const getAll = (database: Transaction) => getAllWokemon(database);

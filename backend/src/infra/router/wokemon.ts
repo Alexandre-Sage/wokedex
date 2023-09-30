@@ -1,19 +1,24 @@
 import { Router } from "express";
-import { create, getAll, getById } from "../../domain/services";
 import { ZodWokemon, zoddValidation } from "../../domain/validation";
 import { httpStatus } from "../../modules/http";
+import { create, getAll, getById } from "../../domain/services/wokemon";
 
 const router = Router();
 const urlPrefix = "/wokemons";
 
 router.post(`${urlPrefix}`, async (req, res, next) => {
+  console.log({ re: req.body });
   try {
-    const validated = await zoddValidation(ZodWokemon, req.body.payload);
-    await create(req.database, validated);
+    const validated = await zoddValidation(
+      ZodWokemon,
+      req.body.payload.wokemon
+    );
+    await create(req.database, validated, req.body.payload.types);
     res.status(httpStatus.CREATE).json({
       success: true,
     });
   } catch (error) {
+    console.log({ error });
     next(error);
   }
 });
