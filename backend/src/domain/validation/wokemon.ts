@@ -3,8 +3,8 @@ import { z, string, date, nullable, optional, number } from "zod";
 const ZodWokemon = z.object({
   name: string().min(1),
   description: optional(string()),
-  height: number(),
-  weight: number(),
+  height: string(),
+  weight: string(),
 });
 
 type WokemonPayload = z.infer<typeof ZodWokemon>;

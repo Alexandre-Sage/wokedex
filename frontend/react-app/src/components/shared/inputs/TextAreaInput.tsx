@@ -7,8 +7,8 @@ interface TextAreaInputProps extends TextareaProps {
 const TextAreaInput = ({ label, ...props }: TextAreaInputProps) => {
   return (
     <Box>
-      {label && <Text>{label}</Text>}
-      <Textarea {...props} />
+      {label && <Text color={"white"}>{label}</Text>}
+      <Textarea textColor={"white"} {...props} />
     </Box>
   );
 };

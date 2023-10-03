@@ -7,7 +7,7 @@ const router = Router();
 const urlPrefix = "/wokemons";
 
 router.post(`${urlPrefix}`, async (req, res, next) => {
-  console.log({ re: req.body });
+  console.log(req.body);
   try {
     const validated = await zoddValidation(
       ZodWokemon,

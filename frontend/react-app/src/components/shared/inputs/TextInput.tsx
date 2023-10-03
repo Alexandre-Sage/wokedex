@@ -7,8 +7,8 @@ interface TextInputProps extends InputProps {
 const TextInput = ({ label, ...props }: TextInputProps) => {
   return (
     <Box>
-      {label && <Text>{label}</Text>}
-      <Input {...props} />
+      {label && <Text color={"white"}>{label}</Text>}
+      <Input h={"8"} {...props} />
     </Box>
   );
 };

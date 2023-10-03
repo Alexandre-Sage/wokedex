@@ -3,8 +3,8 @@ import { Column } from "./table";
 
 const tableMetadata = (table: Knex.CreateTableBuilder) => (
   table.date("created_at").notNullable(),
-  table.date("updated_at").nullable(),
-  table.date("deleted_at").nullable()
+  table.date("updated_at"),//.nullable(),
+  table.date("deleted_at")//.nullable()
 );
 
 const tableId = (table: Knex.CreateTableBuilder) =>
