@@ -15,6 +15,7 @@ export class WokemonBuilder {
     name: name || "TESTOMON",
     number: 0,
     weight: 12.0,
+    encounterPlace: "RENNES",
   });
   public static build = ({
     id,
@@ -28,6 +29,7 @@ export class WokemonBuilder {
     name: name || "TEST WOKEMON",
     number: 100,
     weight: 1.5,
+    encounterPlace: "RENNES",
   });
   public static buildForDb = (wokemon: Partial<Wokemon>) =>
     compose(objectToDbRow, this.build)(wokemon);

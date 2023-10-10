@@ -1,15 +1,16 @@
 import { Button, HStack, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { TypeDragAndDrop } from "../type/TypesDragAndDrop";
+import { TypeDragAndDrop } from "../../type/TypesDragAndDrop";
 import { WokemonFormRightCol } from "./components/WokemonFormRightCol";
-import { WokemonPayload } from "../../types/Wokemon.type";
-import { theme } from "../../App";
+import { WokemonPayload } from "../../../types/Wokemon.type";
+import { theme } from "../../../App";
 import { prop } from "ramda";
-import { createWokemon } from "../../api/wokemon.api";
+import { createWokemon } from "../../../api/wokemon.api";
 
 const CreateWokemonForm = () => {
   const [newWokemon, setNewWokemon] = useState<WokemonPayload>({
     types: [] as string[],
+    image: new FormData(),
   } as WokemonPayload);
   const onFormChange = (
     key: keyof WokemonPayload,
@@ -25,12 +26,22 @@ const CreateWokemonForm = () => {
       };
     });
   };
+  const setWokemonImage = (imageToAdd: File) =>
+    setNewWokemon((wokemon) => {
+      // wokemon.image.append("wokemonImage", imageToAdd);
+      const f = new FormData()
+      f.append("wokemonImage",imageToAdd)
+      return {
+        ...wokemon,
+        image:f
+      };
+    });
   console.log({ newWokemon });
   return (
     <VStack>
       <HStack>
         <VStack>
-          <WokemonFormRightCol onFormChange={onFormChange} />
+          <WokemonFormRightCol onFormChange={onFormChange} setImage={setWokemonImage}/>
         </VStack>
         <VStack
           bgColor={theme.config.colors.darkGrey}

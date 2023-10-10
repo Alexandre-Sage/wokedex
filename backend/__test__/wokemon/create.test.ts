@@ -6,23 +6,31 @@ import { createDbWokemon, getDbWokemeonByName } from "../helpers/dbHelpers";
 import { testEnv } from "../helpers/env";
 import { getTypesIds } from "../helpers/dbHelpers/types";
 import { includes } from "ramda";
-
+import { createReadStream, createWriteStream } from "fs";
+import { fetch } from "cross-fetch";
+import { baseType } from "../../src/infra/database/base/baseType";
 suite("Create wokemon suite", () => {
   let env: Awaited<ReturnType<typeof testEnv>>;
   beforeEach(async () => {
     env = await testEnv();
   });
   const newWokemon = WokemonBuilder.buildCreatePayload({}) as Wokemon;
-  test("Create wokemon without error", async () => {
+
+  test.only("Create wokemon without error", async () => {
     const { databaseTransaction, server, serverRequest } = env;
+    const typeIds = await getTypesIds(databaseTransaction);
+    
     const { status, body } = await serverRequest.post("/wokemons").send({
-      payload: { wokemon: newWokemon, types: [] },
+      payload: { wokemon: newWokemon, types: [typeIds[1], typeIds[2]] },
     });
     const databaseEntry = await getDbWokemeonByName(
       newWokemon.name,
       databaseTransaction
     );
+    console.log({ body  })
     expect(databaseEntry.name).toEqual(newWokemon.name);
+    expect(databaseEntry.encounter_place).toEqual(newWokemon.encounterPlace);
+   expect(body.payload).toHaveProperty("id");
   });
   test("No name error", async () => {
     const { databaseTransaction, server, serverRequest } = env;

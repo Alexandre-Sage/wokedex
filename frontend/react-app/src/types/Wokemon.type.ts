@@ -5,9 +5,10 @@ interface WokemonPayload {
   description: string;
   weight: number;
   height: number;
-  encounter: string;
-  image: File;
+  encounterPlace: string;
+  // image: File;
   types: string[];
+  image:FormData
 }
 
 export { type WokemonPayload };

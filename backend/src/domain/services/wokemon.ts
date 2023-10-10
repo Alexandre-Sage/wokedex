@@ -1,8 +1,17 @@
 import { randomUUID } from "crypto";
-import { Transaction, TypeId, Wokemon, WokemonId, WokemonType } from "../types";
+import {
+  ImageId,
+  Transaction,
+  TypeId,
+  Wokemon,
+  WokemonId,
+  WokemonImage,
+  WokemonType,
+} from "../types";
 import {
   createBatchWokemonType,
   createWokemon,
+  createWokemonImage,
   getAllWokemon,
   getWokemonById,
 } from "../../infra/repositories";
@@ -14,10 +23,15 @@ const create = async (
     height,
     name,
     weight,
-  }: Pick<Wokemon, "description" | "name" | "height" | "weight">,
+    encounterPlace,
+  }: Pick<
+    Wokemon,
+    "description" | "name" | "height" | "weight" | "encounterPlace"
+  >,
   typeIds: TypeId[]
 ) => {
   const id = randomUUID();
+
   const newWokemon: Wokemon = {
     id,
     description,
@@ -27,6 +41,7 @@ const create = async (
     name,
     weight,
     number: 0,
+    encounterPlace,
   };
   const wokemonTypes = map<TypeId, WokemonType>(
     (typeId) => ({
@@ -38,10 +53,22 @@ const create = async (
   );
   await createWokemon(database, newWokemon);
   await createBatchWokemonType(database, wokemonTypes);
+  return { id };
 };
 
 const getAll = (database: Transaction) => getAllWokemon(database);
 
 const getById = (database: Transaction, id: WokemonId) =>
   getWokemonById(database, id);
-export { create, getAll, getById };
+
+const createImage = (
+  database: Transaction,
+  wokemonId: WokemonId,
+  imageId: ImageId
+) =>
+  createWokemonImage(database, {
+    imageId,
+    wokemonId,
+    createdAt: new Date(),
+  });
+export { create, getAll, getById, createImage };

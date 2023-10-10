@@ -1,7 +1,7 @@
 import { VStack, HStack } from "@chakra-ui/react";
-import { WokemonPayload } from "../../../types/Wokemon.type";
-import { TextInput } from "../../shared/inputs";
-import { NumberInput } from "../../shared/inputs/NumberInput";
+import { WokemonPayload } from "../../../../types/Wokemon.type";
+import { TextInput } from "../../../shared/inputs";
+import { NumberInput } from "../../../shared/inputs/NumberInput";
 
 const WokemonInfo = ({
   onFormChange,
@@ -32,7 +32,7 @@ const WokemonInfo = ({
       <HStack>
         <TextInput
           label="Encounter"
-          onChange={({ target: { value } }) => onFormChange("encounter", value)}
+          onChange={({ target: { value } }) => onFormChange("encounterPlace", value)}
         />
       </HStack>
     </VStack>

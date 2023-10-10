@@ -1,16 +1,18 @@
 import { VStack, HStack, Button } from "@chakra-ui/react";
-import { ImageInput, theme } from "../../../App";
-import { WokemonPayload } from "../../../types/Wokemon.type";
-import { TextAreaInput } from "../../shared/inputs";
+import { ImageInput, theme } from "../../../../App";
+import { WokemonPayload } from "../../../../types/Wokemon.type";
+import { TextAreaInput } from "../../../shared/inputs";
 import { WokemonInfo } from "./WokemonInfo";
 
 const WokemonFormRightCol = ({
   onFormChange,
+  setImage
 }: {
   onFormChange: (
     key: keyof WokemonPayload,
     data: WokemonPayload[keyof WokemonPayload]
   ) => void;
+  setImage:any
 }) => {
   return (
     <VStack
@@ -23,7 +25,7 @@ const WokemonFormRightCol = ({
     >
       <HStack gap={10}>
         <VStack>
-          <ImageInput onFormChange={onFormChange} />
+          <ImageInput onFormChange={setImage} />
         </VStack>
         <VStack>
           <WokemonInfo onFormChange={onFormChange} />

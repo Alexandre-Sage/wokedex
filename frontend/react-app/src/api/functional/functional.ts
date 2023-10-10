@@ -6,6 +6,7 @@ interface FunctionalFetchParam {
   method: FetchMethod;
   dataPath?: string;
   responseType?: "FILE" | "JSON";
+  file?: FormData;
 }
 
 type FunctionalFetch = <Type>(
@@ -27,6 +28,7 @@ type FetchMethod = ObjectValue<typeof fetchMethods>;
 
 const contentType = {
   JSON: "application/json",
+  FORM_DATA: "multipart/form-data",
 } as const;
 
 const httpHeaders = (contentType: ContentType = "application/json") => ({
@@ -35,8 +37,9 @@ const httpHeaders = (contentType: ContentType = "application/json") => ({
 
 const _fetch = async <Body = never>(
   headers: ReturnType<typeof httpHeaders>,
-  { url, method, body, dataPath, responseType }: FunctionalFetchParam
+  { url, method, body, dataPath, responseType, file }: FunctionalFetchParam
 ) => {
+  // file && file.append("payload", JSON.stringify(structuredClone({ ...body })));
   const request = await fetch(url, {
     method,
     headers,
@@ -56,4 +59,4 @@ const _fetch = async <Body = never>(
 
 const curryedFetch = curry(_fetch);
 const functionalFetch: FunctionalFetch = curryedFetch(httpHeaders());
-export { functionalFetch };
+export { functionalFetch, curryedFetch, httpHeaders, contentType };

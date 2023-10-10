@@ -5,7 +5,8 @@ const wokemon = getColumns(
   { name: "weight", type: "decimal", nullable: true },
   { name: "height", type: "decimal", nullable: true },
   { name: "description", type: "string", nullable: true },
-  { name: "number", type: "bigInteger", nullable: true }
+  { name: "number", type: "bigInteger", nullable: true },
+  { name: "encounter_place", type: "string", nullable: true }
 );
 
 const wokemonIdFk = getForeignKey({
