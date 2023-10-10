@@ -12,7 +12,7 @@ const WokemonFormRightCol = ({
     key: keyof WokemonPayload,
     data: WokemonPayload[keyof WokemonPayload]
   ) => void;
-  setImage:any
+  setImage:(imageToAdd: File) => void
 }) => {
   return (
     <VStack

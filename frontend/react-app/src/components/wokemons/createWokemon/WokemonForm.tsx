@@ -5,7 +5,7 @@ import { WokemonFormRightCol } from "./components/WokemonFormRightCol";
 import { WokemonPayload } from "../../../types/Wokemon.type";
 import { theme } from "../../../App";
 import { prop } from "ramda";
-import { createWokemon } from "../../../api/wokemon.api";
+import { createWokemon, createWokemonImage } from "../../../api/wokemon.api";
 
 const CreateWokemonForm = () => {
   const [newWokemon, setNewWokemon] = useState<WokemonPayload>({
@@ -29,11 +29,11 @@ const CreateWokemonForm = () => {
   const setWokemonImage = (imageToAdd: File) =>
     setNewWokemon((wokemon) => {
       // wokemon.image.append("wokemonImage", imageToAdd);
-      const f = new FormData()
-      f.append("wokemonImage",imageToAdd)
+      const f = new FormData();
+      f.append("wokemonImage", imageToAdd);
       return {
         ...wokemon,
-        image:f
+        image: f,
       };
     });
   console.log({ newWokemon });
@@ -41,7 +41,10 @@ const CreateWokemonForm = () => {
     <VStack>
       <HStack>
         <VStack>
-          <WokemonFormRightCol onFormChange={onFormChange} setImage={setWokemonImage}/>
+          <WokemonFormRightCol
+            onFormChange={onFormChange}
+            setImage={setWokemonImage}
+          />
         </VStack>
         <VStack
           bgColor={theme.config.colors.darkGrey}
@@ -61,7 +64,11 @@ const CreateWokemonForm = () => {
         <Button
           w={"4xl"}
           h="16"
-          onClick={async () => await createWokemon(newWokemon)}
+          onClick={async () => {
+            const { success, payload } = await createWokemon(newWokemon);
+            if (!success) throw new Error("Failed to save wokemon");
+            await createWokemonImage(newWokemon.image, payload.id);
+          }}
         >
           Add Wokemon
         </Button>

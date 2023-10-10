@@ -4,13 +4,12 @@ import {
   ChakraProvider,
   Input,
   VStack,
-  extendTheme
+  extendTheme,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import "./app.css";
-import { CreateWokemonForm } from "./components/wokemons/createWokemon/WokemonForm";
 import { AppShell } from "./components/shared/appshell/AppShell";
-import { WokemonPayload } from "./types/Wokemon.type";
+import { CreateWokemonForm } from "./components/wokemons/createWokemon/WokemonForm";
 export const theme = extendTheme({
   config: {
     initialColorMode: "dark",
@@ -25,10 +24,7 @@ export const theme = extendTheme({
 export const ImageInput = ({
   onFormChange,
 }: {
-  onFormChange: (
-    key: keyof WokemonPayload,
-    data: WokemonPayload[keyof WokemonPayload]
-  ) => void;
+  onFormChange: (imageToAdd: File) => void;
 }) => {
   const [selectedPreview, setSelectedPreview] = useState<any>("");
   return (
@@ -38,7 +34,7 @@ export const ImageInput = ({
           bgImage={selectedPreview}
           h="2xs"
           onChange={(item) => {
-            onFormChange("image", URL.createObjectURL(item.target.files![0]));
+            onFormChange(item.target.files![0]);
             setSelectedPreview(URL.createObjectURL(item.target.files![0]));
           }}
           bgSize={"cover"}

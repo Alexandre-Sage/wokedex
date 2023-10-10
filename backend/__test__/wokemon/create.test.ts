@@ -19,7 +19,7 @@ suite("Create wokemon suite", () => {
   test("Create wokemon without error", async () => {
     const { databaseTransaction, server, serverRequest } = env;
     const typeIds = await getTypesIds(databaseTransaction);
-    
+
     const { status, body } = await serverRequest.post("/wokemons").send({
       payload: { wokemon: newWokemon, types: [typeIds[1], typeIds[2]] },
     });
@@ -29,7 +29,7 @@ suite("Create wokemon suite", () => {
     );
     expect(databaseEntry.name).toEqual(newWokemon.name);
     expect(databaseEntry.encounter_place).toEqual(newWokemon.encounterPlace);
-   expect(body.payload).toHaveProperty("id");
+    expect(body.payload).toHaveProperty("id");
   });
   test("No name error", async () => {
     const { databaseTransaction, server, serverRequest } = env;

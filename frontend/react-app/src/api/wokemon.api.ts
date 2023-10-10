@@ -3,12 +3,23 @@ import { WokemonPayload } from "../types/Wokemon.type";
 import { urlRegistry } from "../urlRegistry";
 import { functionalFetch } from "./functional/functional";
 
-const createWokemon =async ({ types, image, ...wokemon }: WokemonPayload) =>{
-  await functionalFetch({
+const createWokemon = ({ types, ...wokemon }: WokemonPayload) =>
+  functionalFetch<{ success: boolean; payload: { id: string } }>({
     method: "POST",
     url: urlRegistry.wokemons.base,
     body: { wokemon, types },
-  });}
+  });
+
+const createWokemonImage = async (image: FormData,id:string) => {
+  const reply = await fetch(urlRegistry.wokemons.postImages(id), {
+    method: "POST",
+    headers: {
+      // "Content-Type": "multipart/form-data",
+    },
+    body: image,
+  });
+  return reply.json();
+};
 
 const getAllWokemons = () =>
   functionalFetch<WokemonPayload[]>({
@@ -29,4 +40,4 @@ const useAllWokemons = () => {
   return { wokemons, refetch };
 };
 
-export { createWokemon, useAllWokemons };
+export { createWokemon, useAllWokemons, createWokemonImage };
