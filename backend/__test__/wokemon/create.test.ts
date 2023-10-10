@@ -16,7 +16,7 @@ suite("Create wokemon suite", () => {
   });
   const newWokemon = WokemonBuilder.buildCreatePayload({}) as Wokemon;
 
-  test.only("Create wokemon without error", async () => {
+  test("Create wokemon without error", async () => {
     const { databaseTransaction, server, serverRequest } = env;
     const typeIds = await getTypesIds(databaseTransaction);
     
@@ -27,7 +27,6 @@ suite("Create wokemon suite", () => {
       newWokemon.name,
       databaseTransaction
     );
-    console.log({ body  })
     expect(databaseEntry.name).toEqual(newWokemon.name);
     expect(databaseEntry.encounter_place).toEqual(newWokemon.encounterPlace);
    expect(body.payload).toHaveProperty("id");

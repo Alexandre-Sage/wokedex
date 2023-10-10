@@ -68,7 +68,6 @@ router.post(`${urlPrefix}`, async (req, res, next) => {
       payload: { id },
     });
   } catch (error) {
-    console.log({ error });
     next(error);
   }
 });
@@ -108,7 +107,6 @@ router.post(
         success: true,
       });
     } catch (error) {
-      console.log({ error });
       next(error);
     }
   }

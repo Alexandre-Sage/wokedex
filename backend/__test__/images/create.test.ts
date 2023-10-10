@@ -1,11 +1,11 @@
 import { includes, map, prop } from "ramda";
 import { beforeEach, expect, suite, test } from "vitest";
-import { Wokemon, WokemonImage } from "../../src/domain/types";
+import { Wokemon, WokemonImage, WokemonImageRow } from "../../src/domain/types";
 import { WokemonBuilder } from "../helpers/builders";
 import { createDbWokemon } from "../helpers/dbHelpers";
 import { testEnv } from "../helpers/env";
 
-suite.only("create images suite", () => {
+suite("create images suite", () => {
   let env: Awaited<ReturnType<typeof testEnv>>;
   const toInsert = WokemonBuilder.buildManyForDb(10);
   const insertedIds = map(prop("id"), toInsert);
@@ -26,7 +26,7 @@ suite.only("create images suite", () => {
     const images: any = await databaseTransaction((tsx) =>
       tsx.table("images").select("*")
     );
-    const wokemonImage: WokemonImage = await databaseTransaction((tsx) =>
+    const wokemonImage: WokemonImageRow = await databaseTransaction((tsx) =>
       tsx
         .table("wokemons_images")
         .select("*")
@@ -35,6 +35,6 @@ suite.only("create images suite", () => {
     );
     console.log({ images,wokemonImage  })
     expect(images).toHaveLength(1);
-    expect(wokemonImage.imageId).toEqual(images[0].id);
+    expect(wokemonImage.image_id).toEqual(images[0].id);
   });
 });
