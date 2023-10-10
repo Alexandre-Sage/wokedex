@@ -1,11 +1,11 @@
 {
-  "name": "wokeDex",
+  "name": "woke-dex",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:back": "cd backend && pnpm test",
-    "start:back:dev": "cd ./backend && pnpm start",
+    "test:back": "cd ./apps/backend && pnpm test",
+    "start:back:dev": "cd ./apps/backend && pnpm start",
     "test:front": "",
     "start:client": ""
   },

@@ -22,7 +22,7 @@ const errorMiddleware = (
   res: Response,
   __: Next
 ) => {
-  console.log({ error: error.name });
+  console.log({ error: error });
   let message: string = "";
   switch (error.name) {
     case "ZodError":
