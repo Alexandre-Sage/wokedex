@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:18
 WORKDIR /wokedex/backend
 RUN npm i -g pnpm@latest
 COPY package.json ./
