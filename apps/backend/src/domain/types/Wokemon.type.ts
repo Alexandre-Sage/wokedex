@@ -1,3 +1,4 @@
+import { AtackId } from "./Attack";
 import { ObjectToDbTypeMapper } from "./Globals.type";
 import { ImageId } from "./Images.types";
 import { MetaData, MetaDataRow } from "./MetaData.type";
@@ -24,4 +25,19 @@ interface WokemonImage extends MetaData {
 
 interface WokemonImageRow extends ObjectToDbTypeMapper<WokemonImage> {}
 
-export { Wokemon, WokemonId, WokemonRow, WokemonImageRow, WokemonImage };
+interface WokemonAttack extends MetaData {
+  wokemonId: WokemonId;
+  attackId: AtackId;
+}
+
+interface WokemonAttackRow extends ObjectToDbTypeMapper<WokemonImage> {}
+
+export {
+  Wokemon,
+  WokemonId,
+  WokemonRow,
+  WokemonImageRow,
+  WokemonImage,
+  WokemonAttack,
+  WokemonAttackRow,
+};

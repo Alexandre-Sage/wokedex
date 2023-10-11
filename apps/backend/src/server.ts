@@ -24,20 +24,31 @@ const createApp = (database: Knex) => {
       serverStatus: "UP",
     });
   });
-
+  app.get("/migrate", async (req, res, next) => {
+    try {
+      await req.database((tsx) => tsx.migrate.latest());
+      res.json({
+        migrations: true,
+        smaple: await req.database<any>((tsx) => tsx.table("types").select("*"))
+      });
+    } catch (error) {
+      console.log({ error });
+      next(error);
+    }
+  });
   app.use(errorMiddleware);
   return app as ServerOptions;
 };
 
 const startServer = (serverInstance: Server) => (host: string, port: number) =>
   serverInstance.listen(port, host, () => {
-    process.env.ENV === "development" &&
-      console.table({
-        port,
-        host,
-        env: process.env.ENV,
-        status: "UP",
-      });
+    // process.env.ENV === "development" &&
+    console.table({
+      port,
+      host,
+      env: process.env.ENV,
+      status: "UP",
+    });
   });
 
 const server = compose(startServer, createHttpServer, createApp);

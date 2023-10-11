@@ -6,6 +6,8 @@
   "scripts": {
     "test:back": "cd ./apps/backend && pnpm test",
     "start:back:dev": "cd ./apps/backend && pnpm start",
+    "docker:back:dev": "docker-compose  -f ./apps/backend/compose.dev.yaml up",
+    "docker:back:dev:deamon": "docker-compose  -f ./apps/backend/compose.dev.yaml up -d",
     "test:front": "",
     "start:client": ""
   },

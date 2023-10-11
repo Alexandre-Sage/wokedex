@@ -160,9 +160,17 @@ export const baseType = [
     name_en: "white",
     name_fr: "blanc/blanche",
   },
+  {
+    id: randomUUID(),
+    created_at: new Date(),
+    name_en: "clodo",
+    name_fr: "clodo",
+  },
 ] as TypeRow[];
 
 export const typeById = indexBy(
   prop("id"),
   map<TypeRow, Type>(dbRowToObject, baseType)
 );
+
+export const typeByName = indexBy<TypeRow, TypeRow["name_en"]>(prop("name_en"), baseType);
