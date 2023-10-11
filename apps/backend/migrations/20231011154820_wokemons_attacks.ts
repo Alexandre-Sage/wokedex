@@ -1,7 +1,6 @@
 import { Knex } from "knex";
-import { createTable } from "../src/modules/knex/table";
-import { wokemonImageAssoc } from "../src/infra/database/table";
 import { wokemonAttackAssoc } from "../src/infra/database/table/wokemonsAttacks.table";
+import { createTable } from "../src/modules/knex/table";
 
 export async function up(knex: Knex): Promise<void> {
   return createTable(knex, "wokemons_attacks", wokemonAttackAssoc, false);
