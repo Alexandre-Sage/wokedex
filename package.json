@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "test:back": "cd ./apps/backend && pnpm test",
-    "start:back:dev": "cd ./apps/backend && pnpm start",
-    "docker:back:dev": "docker-compose  -f ./apps/backend/compose.dev.yaml up",
-    "docker:back:dev:deamon": "docker-compose  -f ./apps/backend/compose.dev.yaml up -d",
+    "compose:beta":"docker rmi wokedex-backend-beta --force && docker-compose -f docker-compose.beta.yaml up --build",
     "test:front": "",
     "start:client": ""
   },
@@ -15,7 +15,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ramda": "^0.29.0"
+    "ramda": "^0.29.0",
+    "turbo": "^1.10.15"
   },
   "devDependencies": {
     "@types/ramda": "^0.29.5"

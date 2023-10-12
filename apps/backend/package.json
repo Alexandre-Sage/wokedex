@@ -1,13 +1,15 @@
 {
-  "name": "wokeDex",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "pnpm build && vitest ./__test__/**/*.test.ts",
-    "build": "rm -rf ./dist && tsc",
+    "build": "rm -rf ./dist && npx tsc",
+    "test": " npx vitest ./__test__/**/*.test.ts",
     "dev": "ts-node index.ts",
-    "start": "pnpm build && node ./dist/index.js"
+    "start": "pnpm build && node ./dist/index.js",
+    "docker:beta": "sudo docker build -t beta/wokedex-backend ./",
+    "start:build": "node ./dist/index.js"
   },
   "keywords": [],
   "author": "",

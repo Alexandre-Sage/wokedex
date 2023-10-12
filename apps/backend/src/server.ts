@@ -31,9 +31,7 @@ const createApp = (database: Knex) => {
       await req.database((tsx) => tsx.migrate.latest());
       res.json({
         migrations: true,
-        smaple: await req.database<any>((tsx) =>
-          tsx.table("types").select("*")
-        ),
+        message: "migration ok test"
       });
     } catch (error) {
       console.log({ error });
@@ -45,7 +43,7 @@ const createApp = (database: Knex) => {
       await req.database((tsx) => tsx.migrate.rollback());
       res.json({
         migrations: true,
-        smaple: "reroll"
+        message: "reroll ok"
       });
     } catch (error) {
       console.log({ error });

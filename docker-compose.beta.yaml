@@ -1,0 +1,42 @@
+version: "3"
+services:
+  mariadb-beta:
+    image: mariadb:latest
+    environment:
+      MARIADB_USER: test
+      MARIADB_PASSWORD: test
+      MARIADB_DATABASE: wokedex
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+  backend-beta:
+    depends_on:
+      - mariadb-beta
+    command: turbo run start:build --filter=backend
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    expose:
+      - 4666
+    ports:
+      - 4666:4666
+    volumes:
+      - .:/apps/backend
+      # - /apps/backend/node_modules
+    environment:
+      PORT: 4666
+      HOST: 0.0.0.0
+      ENV: docker_back_dev
+      DB_CLIENT: mysql2
+      DB_USER: test
+      DB_PASS: test
+      DB_HOST: mariadb-beta
+      DB_PORT: 3306
+      DB_NAME: wokedex
+
+  #wokedex-frontend:
+  #  depends_on:
+  #    - wokedex-backend
+  #  image: beta/wokedex-frontend:latest
