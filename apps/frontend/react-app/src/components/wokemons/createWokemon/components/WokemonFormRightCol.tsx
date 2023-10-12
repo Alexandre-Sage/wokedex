@@ -1,47 +1,44 @@
-import { VStack, HStack, Button } from "@chakra-ui/react";
+import { VStack, HStack, Button, Stack } from "@chakra-ui/react";
 import { ImageInput, theme } from "../../../../App";
 import { WokemonPayload } from "../../../../types/Wokemon.type";
 import { TextAreaInput } from "../../../shared/inputs";
 import { WokemonInfo } from "./WokemonInfo";
+import { FormSectionLayout } from "../WokemonForm";
 
 const WokemonFormRightCol = ({
   onFormChange,
-  setImage
+  setImage,
 }: {
   onFormChange: (
     key: keyof WokemonPayload,
     data: WokemonPayload[keyof WokemonPayload]
   ) => void;
-  setImage:(imageToAdd: File) => void
+  setImage: (imageToAdd: File) => void;
 }) => {
   return (
-    <VStack
-      bgColor={theme.config.colors.darkGrey}
-      borderRadius={5}
-      w="xl"
-      h="xl"
-      alignItems={"center"}
-      justifyContent={"center"}
-    >
-      <HStack gap={10}>
+    <FormSectionLayout>
+      <Stack
+        direction={{ xl: "row", md: "row", sm: "column", base: "column" }}
+        gap={{ xl: 10, md: 5, sm: 4, base: 4 }}
+      >
         <VStack>
           <ImageInput onFormChange={setImage} />
         </VStack>
         <VStack>
           <WokemonInfo onFormChange={onFormChange} />
         </VStack>
-      </HStack>
+      </Stack>
       <HStack>
         <TextAreaInput
           label="Description"
-          w="lg"
+          // w="lg"
+          w={{ xl: "lg", md: "2md", sm: "sm", base: "xs" }}
           onChange={({ target: { value } }) =>
             onFormChange("description", value)
           }
         />
       </HStack>
-      
-    </VStack>
+    </FormSectionLayout>
   );
 };
 

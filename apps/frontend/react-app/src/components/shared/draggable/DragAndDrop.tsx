@@ -18,8 +18,8 @@ export function DragAndDrop<T>({
   const [selected, setSelected] = useState<typeof optionsList>([]);
   useEffect(() => {
     setOptions(
-      optionsList.filter(({ id }) =>
-        !selected.find((selected) => selected.id === id)
+      optionsList.filter(
+        ({ id }) => !selected.find((selected) => selected.id === id)
       )
     );
   }, [optionsList, selected]);
@@ -46,8 +46,8 @@ export function DragAndDrop<T>({
       >
         <DropZone
           id="selected"
-          w={"md"}
-          h={"100"}
+          h={{ xl: "100", md: "75", sm: "50", base: "50" }}
+          w={{ xl: "md", md: "sm", sm: "xs", base: "xs" }}
           border={"1px"}
           borderColor={"white"}
           borderRadius={5}
@@ -61,14 +61,17 @@ export function DragAndDrop<T>({
         </DropZone>
         <DropZone
           wrap={"wrap"}
-          w={"md"}
-          h={"auto"}
+          // w={"md"}
+          //h={"auto"}
+          h={{ xl: "auto", md: "100", sm: "100", base: "150" }}
+          w={{ xl: "md", md: "sm", sm: "xs", base: "xs" }}
           border={"1px"}
           borderColor={"white"}
           borderRadius={5}
           id="options"
           padding={2}
           alignItems={"center"}
+          overflow={"scroll"}
         >
           {options.map((opt) => (
             <Draggable id={opt.id} data={opt.data}>
