@@ -1,5 +1,5 @@
 FROM node:latest as builder
-WORKDIR /apps/frontend/react-app
+WORKDIR /apps/react-app
 RUN npm i -g pnpm@latest
 COPY package.json .
 RUN pnpm i
@@ -15,4 +15,4 @@ ENV NGINX_PORT 80
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /apps/frontend/react-app/build .
+COPY --from=builder /apps/react-app/build .

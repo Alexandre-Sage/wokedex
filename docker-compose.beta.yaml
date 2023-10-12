@@ -39,9 +39,9 @@ services:
     depends_on:
       - backend-beta
     build:
-     context: ./apps/frontend/react-app
+     context: ./apps/react-app
      dockerfile: Dockerfile
     volumes:
-      - .:/apps/frontend/react-apps
+      - .:/apps/react-apps
     ports:
       - "8080:80"
