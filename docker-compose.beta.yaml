@@ -1,9 +1,8 @@
-version: '3'
+version: "3"
 services:
   mariadb-beta:
     image: mariadb:latest
     environment:
-      # MARIADB_ROOT_PASSWORD: azeùazlsùmdkflksqfùojzerijflksdlkfjqlmsdkjfùiezjrflksdjlmfkqsdjmflqjsfioez
       MARIADB_USER: test
       MARIADB_PASSWORD: test
       MARIADB_DATABASE: wokedex
@@ -15,17 +14,17 @@ services:
   backend-beta:
     depends_on:
       - mariadb-beta
-    build: 
+    command: turbo run start:build --filter=backend
+    build:
       context: ./apps/backend
       dockerfile: Dockerfile
-    
     expose:
       - 4666
     ports:
       - 4666:4666
     volumes:
       - .:/apps/backend
-      - /apps/backend
+      # - /apps/backend/node_modules
     environment:
       PORT: 4666
       HOST: 0.0.0.0
