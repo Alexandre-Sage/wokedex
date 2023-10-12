@@ -14,7 +14,7 @@ const attackIdFk = getForeignKey({
   type: "uuid",
   foreignKey: {
     fk_field: "id",
-    table: "atack",
+    table: "attacks",
   },
 });
 

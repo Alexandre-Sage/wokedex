@@ -2,8 +2,7 @@ import { randomUUID } from "crypto";
 import { AttackRow } from "../../../domain/types/Attack";
 import { baseType, typeByName } from "./baseType";
 
-const typesIds = baseType.map(({ name_en }) => name_en);
-const setType = (param: keyof typeof typeByName) => typeByName[param].id;
+
 export const baseAtack: AttackRow[] = [
   {
     id: randomUUID(),
@@ -35,7 +34,7 @@ export const baseAtack: AttackRow[] = [
   {
     id: randomUUID(),
     name: "Earthquake",
-    type_id: typeByName["fatty"].id,
+    type_id: typeByName["faty"].id,
     description: "Fatal attack",
     special_effect: "",
     strength: 1,

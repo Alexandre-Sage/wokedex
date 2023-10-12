@@ -2,6 +2,7 @@ import { create, getAll, getOne } from ".";
 import {
   Transaction,
   Wokemon,
+  WokemonAttack,
   WokemonId,
   WokemonImage,
   WokemonRow,
@@ -9,7 +10,7 @@ import {
 } from "../../domain/types";
 const table = "wokemons";
 const image_table = "wokemons_images";
-
+const attack_table = "wokemons_attacks";
 const createWokemon = (database: Transaction, wokemon: Wokemon) =>
   create(database, {
     table,
@@ -49,10 +50,20 @@ const createWokemonImage = (
     data,
   });
 
+const createBatchWokemonAttacks = (
+  database: Transaction,
+  wokemonAttacks: WokemonAttack[]
+) =>
+  create(database, {
+    table: attack_table,
+    data: wokemonAttacks,
+  });
+
 export {
   createBatchWokemonType,
   createWokemon,
   getAllWokemon,
   getWokemonById,
   createWokemonImage,
+  createBatchWokemonAttacks,
 };

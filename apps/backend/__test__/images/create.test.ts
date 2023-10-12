@@ -20,7 +20,7 @@ suite("create images suite", () => {
       body: { payload, success },
     } = await serverRequest
       .post(`/wokemons/images/${insertedIds[0]}`)
-      .attach("wokemonImage", "./tmp/jojo.jpg");
+      .attach("wokemonImage", "./tmp/jojo.png");
     expect(status).toEqual(200);
     expect(success).toBeTruthy();
     const images: any = await databaseTransaction((tsx) =>
@@ -33,7 +33,6 @@ suite("create images suite", () => {
         .where("wokemon_id", "=", insertedIds[0])
         .first()
     );
-    console.log({ images,wokemonImage  })
     expect(images).toHaveLength(1);
     expect(wokemonImage.image_id).toEqual(images[0].id);
   });

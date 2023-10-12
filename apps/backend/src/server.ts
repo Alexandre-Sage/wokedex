@@ -10,6 +10,7 @@ import { compose } from "ramda";
 import { connection } from "./infra/database";
 import { typesRouter, wokemonRouter } from "./infra/router";
 import { errorMiddleware } from "./modules/middleware";
+import { attackRouter } from "./infra/router/attacks";
 
 const createApp = (database: Knex) => {
   const app = express();
@@ -19,6 +20,7 @@ const createApp = (database: Knex) => {
   app.use(morgan("dev", {}));
   app.use(wokemonRouter);
   app.use(typesRouter);
+  app.use(attackRouter);
   app.use("/ping", (_, res) => {
     res.json({
       serverStatus: "UP",
@@ -29,7 +31,21 @@ const createApp = (database: Knex) => {
       await req.database((tsx) => tsx.migrate.latest());
       res.json({
         migrations: true,
-        smaple: await req.database<any>((tsx) => tsx.table("types").select("*"))
+        smaple: await req.database<any>((tsx) =>
+          tsx.table("types").select("*")
+        ),
+      });
+    } catch (error) {
+      console.log({ error });
+      next(error);
+    }
+  });
+  app.get("/migrate/rollback", async (req, res, next) => {
+    try {
+      await req.database((tsx) => tsx.migrate.rollback());
+      res.json({
+        migrations: true,
+        smaple: "reroll"
       });
     } catch (error) {
       console.log({ error });

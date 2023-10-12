@@ -8,7 +8,8 @@ interface WokemonPayload {
   encounterPlace: string;
   // image: File;
   types: string[];
-  image:FormData
+  image: FormData;
+  attacks: string[];
 }
 
 export { type WokemonPayload };

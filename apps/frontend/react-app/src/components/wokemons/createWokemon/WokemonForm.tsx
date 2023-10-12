@@ -1,16 +1,21 @@
 import { Button, HStack, VStack } from "@chakra-ui/react";
 import { useState } from "react";
+import { theme } from "../../../App";
+import { createWokemon, createWokemonImage } from "../../../api/wokemon.api";
+import { WokemonPayload } from "../../../types/Wokemon.type";
 import { TypeDragAndDrop } from "../../type/TypesDragAndDrop";
 import { WokemonFormRightCol } from "./components/WokemonFormRightCol";
-import { WokemonPayload } from "../../../types/Wokemon.type";
-import { theme } from "../../../App";
-import { prop } from "ramda";
-import { createWokemon, createWokemonImage } from "../../../api/wokemon.api";
-
+import { useAttacks } from "../../../api/attack.api";
+import { AttackDragAndDrop } from "../../attack/AttackDragAndDrop";
+export const Attack = () => {
+  const { refetch, attacks } = useAttacks();
+  return <VStack>HELLO</VStack>;
+};
 const CreateWokemonForm = () => {
   const [newWokemon, setNewWokemon] = useState<WokemonPayload>({
     types: [] as string[],
     image: new FormData(),
+    attacks: [] as string[],
   } as WokemonPayload);
   const onFormChange = (
     key: keyof WokemonPayload,
@@ -57,7 +62,9 @@ const CreateWokemonForm = () => {
           <HStack>
             <TypeDragAndDrop onChange={(e) => onFormChange("types", e)} />
           </HStack>
-          <HStack border={"1px solid red"} h="60" w="sm"></HStack>
+          <HStack border={"1px solid red"} h="60" w="sm">
+            <AttackDragAndDrop onChange={(e) => onFormChange("attacks", e)} />
+          </HStack>
         </VStack>
       </HStack>
       <HStack>

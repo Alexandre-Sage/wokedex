@@ -4,11 +4,13 @@ import {
   Transaction,
   TypeId,
   Wokemon,
+  WokemonAttack,
   WokemonId,
   WokemonImage,
   WokemonType,
 } from "../types";
 import {
+  createBatchWokemonAttacks,
   createBatchWokemonType,
   createWokemon,
   createWokemonImage,
@@ -16,6 +18,7 @@ import {
   getWokemonById,
 } from "../../infra/repositories";
 import { map } from "ramda";
+import { AttackId } from "../types/Attack";
 const create = async (
   database: Transaction,
   {
@@ -28,7 +31,8 @@ const create = async (
     Wokemon,
     "description" | "name" | "height" | "weight" | "encounterPlace"
   >,
-  typeIds: TypeId[]
+  typeIds: TypeId[],
+  attackIds: AttackId[]
 ) => {
   const id = randomUUID();
 
@@ -43,16 +47,23 @@ const create = async (
     number: 0,
     encounterPlace,
   };
-  const wokemonTypes = map<TypeId, WokemonType>(
-    (typeId) => ({
-      typeId,
-      wokemonId: id,
-      createdAt: new Date(),
-    }),
-    typeIds
-  );
-  await createWokemon(database, newWokemon);
-  await createBatchWokemonType(database, wokemonTypes);
+  const wokemonTypes = typeIds.map<WokemonType>((typeId) => ({
+    typeId,
+    wokemonId: id,
+    createdAt: new Date(),
+  }));
+
+  const wokemonAttacks = attackIds.map<WokemonAttack>((attackId) => ({
+    attackId,
+    wokemonId: id,
+    createdAt: new Date(),
+  }));
+
+  await Promise.all([
+    createWokemon(database, newWokemon),
+    createBatchWokemonType(database, wokemonTypes),
+    createBatchWokemonAttacks(database, wokemonAttacks),
+  ]);
   return { id };
 };
 

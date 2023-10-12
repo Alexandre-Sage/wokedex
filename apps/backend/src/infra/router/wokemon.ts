@@ -61,7 +61,8 @@ router.post(`${urlPrefix}`, async (req, res, next) => {
     const { id } = await create(
       req.database,
       validated,
-      req.body.payload.types
+      req.body.payload.types,
+      req.body.payload.attacks,
     );
     res.status(httpStatus.CREATE).json({
       success: true,

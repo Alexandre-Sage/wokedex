@@ -7,5 +7,8 @@ const urlRegistry = {
   types: {
     base: `${baseUrl}/types`,
   },
+  attack: {
+    base: `${baseUrl}/attacks`,
+  },
 };
 export { urlRegistry };

@@ -3,14 +3,14 @@ import { WokemonPayload } from "../types/Wokemon.type";
 import { urlRegistry } from "../urlRegistry";
 import { functionalFetch } from "./functional/functional";
 
-const createWokemon = ({ types, ...wokemon }: WokemonPayload) =>
+const createWokemon = ({ types, attacks, ...wokemon }: WokemonPayload) =>
   functionalFetch<{ success: boolean; payload: { id: string } }>({
     method: "POST",
     url: urlRegistry.wokemons.base,
-    body: { wokemon, types },
+    body: { wokemon, types, attacks },
   });
 
-const createWokemonImage = async (image: FormData,id:string) => {
+const createWokemonImage = async (image: FormData, id: string) => {
   const reply = await fetch(urlRegistry.wokemons.postImages(id), {
     method: "POST",
     headers: {
