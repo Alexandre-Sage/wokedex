@@ -1,10 +1,11 @@
 FROM node:18
-WORKDIR /wokedex/backend
-RUN npm i -g pnpm@latest
+WORKDIR /apps/backend
+RUN npm i -g pnpm@latest typescript ts-node turbo
 COPY package.json ./
 RUN pnpm i
 COPY . .
-EXPOSE 4447
-CMD ["pnpm","start"]
+# RUN npx turbo run build
+# RUN rm -rf ./{src, tsconfig.json}
+CMD ["npx","turbo","run","start:build","--filter","backend"]
 
 
