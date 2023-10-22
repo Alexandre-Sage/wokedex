@@ -6,8 +6,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { WokedexMenu } from "./Menu";
+import { AppReducer } from "./AppReducer";
 
-const WokedexHeader = () => {
+const WokedexHeader = ({ appReducer }: { appReducer: AppReducer }) => {
   return (
     <HStack
       alignItems={"center"}
@@ -17,7 +18,7 @@ const WokedexHeader = () => {
       // h={"5%"}
     >
       <HStack w={"95%"} alignItems={"center"} justifyContent={"space-between"}>
-        <WokedexMenu />
+        <WokedexMenu appReducer={appReducer} />
         <Heading as={"h1"} size={"lg"}>
           Wokedex
         </Heading>

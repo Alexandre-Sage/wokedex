@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { WokemonPayload } from "../types/Wokemon.type";
+import { WokemonDto, WokemonPayload } from "../types/Wokemon.type";
 import { urlRegistry } from "../urlRegistry";
 import { functionalFetch } from "./functional/functional";
 
@@ -22,14 +22,14 @@ const createWokemonImage = async (image: FormData, id: string) => {
 };
 
 const getAllWokemons = () =>
-  functionalFetch<WokemonPayload[]>({
+  functionalFetch<WokemonDto[]>({
     method: "GET",
     url: urlRegistry.wokemons.base,
     dataPath: "payload",
   });
 
 const useAllWokemons = () => {
-  const [wokemons, setWokemons] = useState<WokemonPayload[]>([]);
+  const [wokemons, setWokemons] = useState<WokemonDto[]>([]);
   const refetch = async () => {
     const reply = await getAllWokemons();
     setWokemons(reply);

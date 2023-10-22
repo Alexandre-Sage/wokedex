@@ -27,7 +27,6 @@ export function DragAndDrop<T>({
     <VStack>
       <DndContext
         onDragEnd={(param) => {
-          console.log(param.over);
           if (param.over?.id === "selected") {
             onChange(param.active.id as string);
             setSelected((selected) => [
@@ -61,9 +60,7 @@ export function DragAndDrop<T>({
         </DropZone>
         <DropZone
           wrap={"wrap"}
-          // w={"md"}
-          //h={"auto"}
-          h={{ xl: "auto", md: "100", sm: "100", base: "150" }}
+          h={{ xl: "150", md: "100", sm: "100", base: "150" }}
           w={{ xl: "md", md: "sm", sm: "xs", base: "xs" }}
           border={"1px"}
           borderColor={"white"}

@@ -12,4 +12,22 @@ interface WokemonPayload {
   attacks: string[];
 }
 
-export { type WokemonPayload };
+interface WokemonDto {
+  id:string,
+  name: string;
+  description: string;
+  weight: number;
+  height: number;
+  encounterPlace: string;
+  // image: File;
+  types: {
+    id: string;
+    nameEn: string;
+  }[];
+  images: {
+    id: string;
+    path: string;
+  }[];
+}
+
+export { type WokemonPayload, type WokemonDto };

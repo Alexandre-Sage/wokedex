@@ -1,7 +1,9 @@
 import { Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
 import { theme } from "../../../App";
 import { FaChevronCircleDown } from "react-icons/fa";
-const WokedexMenu = () => {
+import { AppReducer } from "./AppReducer";
+const WokedexMenu = ({ appReducer }: { appReducer: AppReducer }) => {
+  const { appReducerDispatch } = appReducer;
   return (
     <Menu>
       {({ isOpen }) => (
@@ -22,8 +24,16 @@ const WokedexMenu = () => {
             {isOpen ? "Close" : "Menu"}
           </MenuButton>
           <MenuList>
-            <MenuItem>Create Wokemon</MenuItem>
-            <MenuItem>List</MenuItem>
+            <MenuItem
+              onClick={() => appReducerDispatch({ type: "CREATE_WOKEMON" })}
+            >
+              Create Wokemon
+            </MenuItem>
+            <MenuItem
+              onClick={() => appReducerDispatch({ type: "WOKEMON_LIST" })}
+            >
+              List
+            </MenuItem>
           </MenuList>
         </>
       )}

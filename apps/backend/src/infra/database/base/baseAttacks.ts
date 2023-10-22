@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { AttackRow } from "../../../domain/types/Attack";
 import { baseType, typeByName } from "./baseType";
-
+import { indexBy, prop } from "ramda";
 
 export const baseAtack: AttackRow[] = [
   {
@@ -67,4 +67,87 @@ export const baseAtack: AttackRow[] = [
     strength: 1,
     created_at: new Date(),
   },
+  {
+    id: randomUUID(),
+    name: "Abuse of power",
+    type_id: typeByName["rightarted"].id,
+    description: "Fatal attack",
+    special_effect: "",
+    strength: 50,
+    created_at: new Date(),
+  },
+  {
+    id: randomUUID(),
+    name: "Critical race theory",
+    type_id: typeByName["leftist"].id,
+    description: "Fatal attack",
+    special_effect: "Confusion",
+    strength: 25,
+    created_at: new Date(),
+  },
+  {
+    id: randomUUID(),
+    name: "Tax de riches",
+    type_id: typeByName["comunist"].id,
+    description: "Fatal attack",
+    special_effect: "",
+    strength: 75,
+    created_at: new Date(),
+  },
+  {
+    id: randomUUID(),
+    name: "Men are trash",
+    type_id: typeByName["feminist"].id,
+    description: "Fatal attack",
+    special_effect: "Confusion",
+    strength: 25,
+    created_at: new Date(),
+  },
+  {
+    id: randomUUID(),
+    name: "Cut them balls",
+    type_id: typeByName["feminist"].id,
+    description: "Fatal attack",
+    special_effect: "Confusion",
+    strength: 25,
+    created_at: new Date(),
+  },
+  {
+    id: randomUUID(),
+    name: "Ratonade",
+    type_id: typeByName["nazi"].id,
+    description: "Fatal attack",
+    special_effect: "",
+    strength: 75,
+    created_at: new Date(),
+  },
+  {
+    id: randomUUID(),
+    name: "Hooligan tackle",
+    type_id: typeByName["unknown"].id,
+    description: "Fatal attack",
+    special_effect: "",
+    strength: 75,
+    created_at: new Date(),
+  },
+  {
+    id: randomUUID(),
+    name: "Kamikaze plane",
+    type_id: typeByName["terrorist"].id,
+    description: "Fatal attack",
+    special_effect: "Cause attacker death",
+    strength: 1000,
+    created_at: new Date(),
+  },
+  {
+    id: randomUUID(),
+    name: "Mass slaughter",
+    type_id: typeByName["terrorist"].id,
+    description: "Fatal attack",
+    special_effect: "",
+    strength: 75,
+    created_at: new Date(),
+  },
 ];
+
+export const baseAttacksIndexedByName = indexBy(prop("name"), baseAtack);

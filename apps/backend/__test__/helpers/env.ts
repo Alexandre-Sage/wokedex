@@ -43,9 +43,10 @@ const testEnv = async () => {
   const postgres = getTestKnex(dbConnection);
   const db = connection(postgres);
   const app = server(postgres)("0.0.0.0", 0);
-  await db((tsx) => tsx.migrate.latest({
-    
-  }));
+  await db((tsx) => tsx.migrate.latest({}));
+  await db((tsx) => tsx.table("wokemons").delete("*"))
+  await db((tsx) => tsx.table("wokemons_images").delete("*"))
+  await db((tsx) => tsx.table("images").delete("*"))
   return {
     databaseTransaction: db,
     server: app,

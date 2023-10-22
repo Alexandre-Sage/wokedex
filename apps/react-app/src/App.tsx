@@ -1,15 +1,10 @@
-import {
-  Box,
-  Button,
-  ChakraProvider,
-  Input,
-  VStack,
-  extendTheme,
-} from "@chakra-ui/react";
-import { useState } from "react";
+import { ChakraProvider, VStack, extendTheme } from "@chakra-ui/react";
 import "./app.css";
 import { AppShell } from "./components/shared/appshell/AppShell";
 import { CreateWokemonForm } from "./components/wokemons/createWokemon/WokemonForm";
+import { useAppReducer } from "./components/shared/appshell/AppReducer";
+import { WokemonList } from "./components/wokemons/list/WokemonList";
+import { Wokemon } from "./components/wokemons/wokemon/Wokemon";
 export const theme = extendTheme({
   config: {
     initialColorMode: "dark",
@@ -21,44 +16,15 @@ export const theme = extendTheme({
   },
 });
 
-export const ImageInput = ({
-  onFormChange,
-}: {
-  onFormChange: (imageToAdd: File) => void;
-}) => {
-  const [selectedPreview, setSelectedPreview] = useState<any>("");
-  return (
-    <Box
-      h={{ xl: "2xs", md: "3xs", sm: "5xs" }}
-      w={{ xl: "2xs", md: "3xs", sm: "5xs" }}
-      border={"1px solid green"}
-    >
-      <Button bgRepeat={"no-repeat"} zIndex={1} w="fit-content" h="fit-content">
-        <Input
-          bgImage={selectedPreview}
-          // h="2xs"
-          h={{ xl: "2xs", md: "3xs", sm: "20" }}
-          onChange={(item) => {
-            onFormChange(item.target.files![0]);
-            setSelectedPreview(URL.createObjectURL(item.target.files![0]));
-          }}
-          bgSize={"cover"}
-          type="file"
-          bgColor={"white"}
-          textColor={"white"}
-          placeholder="Hello"
-        />
-      </Button>
-    </Box>
-  );
-};
-
 function App() {
+  const { appReducerDispatch, appReducerState } = useAppReducer();
   return (
     <ChakraProvider theme={theme}>
-      <AppShell>
+      <AppShell appReducer={{ appReducerDispatch, appReducerState }}>
         <VStack>
-          <CreateWokemonForm />
+          {appReducerState.displayWokemonForm && <CreateWokemonForm />}
+          {appReducerState.displayWokemonList && <WokemonList appReducer={{ appReducerDispatch, appReducerState }}/>}
+          {appReducerState.displayWokemonDetails && <Wokemon appReducer={{ appReducerDispatch, appReducerState }}/>}
         </VStack>
       </AppShell>
     </ChakraProvider>

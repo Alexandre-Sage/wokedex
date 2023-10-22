@@ -1,15 +1,12 @@
+import { includes } from "ramda";
 import { beforeEach, expect, suite, test } from "vitest";
 import { Wokemon } from "../../src/domain/types";
 import { setName } from "../../src/modules/lens";
 import { WokemonBuilder } from "../helpers/builders";
 import { createDbWokemon, getDbWokemeonByName } from "../helpers/dbHelpers";
-import { testEnv } from "../helpers/env";
-import { getTypesIds } from "../helpers/dbHelpers/types";
-import { includes } from "ramda";
-import { createReadStream, createWriteStream } from "fs";
-import { fetch } from "cross-fetch";
-import { baseType } from "../../src/infra/database/base/baseType";
 import { getAttacksIds } from "../helpers/dbHelpers/attacks";
+import { getTypesIds } from "../helpers/dbHelpers/types";
+import { testEnv } from "../helpers/env";
 suite("Create wokemon suite", () => {
   let env: Awaited<ReturnType<typeof testEnv>>;
   beforeEach(async () => {

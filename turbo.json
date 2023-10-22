@@ -1,21 +1,21 @@
 {
   "$schema": "https://turbo.build/schema.json",
-
   "pipeline": {
     "build": {
       "dependsOn": [
         "^build"
       ],
       "outputs": [
-        "dist/**"
+        "dist/**",
+        "build/**"
       ]
     },
     "start:build": {
       "dependsOn": [
         "^build"
       ]
-      
     },
+    "start": {},
     "docker:beta": {
       "dependsOn": [
         "^docker:beta"

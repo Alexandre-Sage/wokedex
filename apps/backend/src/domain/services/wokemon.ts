@@ -1,23 +1,23 @@
 import { randomUUID } from "crypto";
 import {
-  ImageId,
-  Transaction,
-  TypeId,
-  Wokemon,
-  WokemonAttack,
-  WokemonId,
-  WokemonImage,
-  WokemonType,
-} from "../types";
-import {
   createBatchWokemonAttacks,
   createBatchWokemonType,
   createWokemon,
   createWokemonImage,
   getAllWokemon,
   getWokemonById,
+  getWokemonImages,
+  getWokemonTypes,
 } from "../../infra/repositories";
-import { map } from "ramda";
+import {
+  ImageId,
+  Transaction,
+  TypeId,
+  Wokemon,
+  WokemonAttack,
+  WokemonId,
+  WokemonType
+} from "../types";
 import { AttackId } from "../types/Attack";
 const create = async (
   database: Transaction,
@@ -59,15 +59,24 @@ const create = async (
     createdAt: new Date(),
   }));
 
+  await createWokemon(database, newWokemon),
   await Promise.all([
-    createWokemon(database, newWokemon),
     createBatchWokemonType(database, wokemonTypes),
     createBatchWokemonAttacks(database, wokemonAttacks),
   ]);
   return { id };
 };
 
-const getAll = (database: Transaction) => getAllWokemon(database);
+const getAll = async (database: Transaction) => {
+  const wokemons = await getAllWokemon(database);
+  return Promise.all(
+    wokemons.map(async (wokemon) => ({
+      ...wokemon,
+      types: await getWokemonTypes(database, wokemon.id),
+      images: await getWokemonImages(database, wokemon.id),
+    }))
+  );
+};
 
 const getById = (database: Transaction, id: WokemonId) =>
   getWokemonById(database, id);
@@ -82,4 +91,5 @@ const createImage = (
     wokemonId,
     createdAt: new Date(),
   });
-export { create, getAll, getById, createImage };
+export { create, createImage, getAll, getById };
+

@@ -7,6 +7,7 @@ import {
   WokemonImage,
   WokemonRow,
   WokemonType,
+  WokemonTypeRow,
 } from "../../domain/types";
 const table = "wokemons";
 const image_table = "wokemons_images";

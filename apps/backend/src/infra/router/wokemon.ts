@@ -8,9 +8,10 @@ import {
   getById,
   createImage,
 } from "../../domain/services/wokemon";
-import { ZodWokemon, zoddValidation } from "../../domain/validation";
+import { WokemonPayload, ZodWokemon, zoddValidation } from "../../domain/validation";
 import { httpStatus } from "../../modules/http";
 import { createImages } from "../repositories";
+import { compose } from "ramda";
 const router = Router();
 const urlPrefix = "/wokemons";
 
@@ -49,20 +50,21 @@ const file = multer({
   // dest: "./",
   storage: storage,
 });
-
 router.post(`${urlPrefix}`, async (req, res, next) => {
-  const { height, weight, ...wokemon } = req.body.payload.wokemon;
+  const { wokemon:{height, weight, ...wokemon},types,attacks } = req.body.payload;
   try {
     const validated = await zoddValidation(ZodWokemon, {
       ...wokemon,
       height: parseInt(height),
       weight: parseInt(weight),
+      types,
+      attacks
     });
     const { id } = await create(
       req.database,
       validated,
-      req.body.payload.types,
-      req.body.payload.attacks,
+      types,
+      attacks,
     );
     res.status(httpStatus.CREATE).json({
       success: true,

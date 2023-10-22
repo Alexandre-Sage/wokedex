@@ -11,6 +11,7 @@ import { connection } from "./infra/database";
 import { typesRouter, wokemonRouter } from "./infra/router";
 import { errorMiddleware } from "./modules/middleware";
 import { attackRouter } from "./infra/router/attacks";
+import path from "path";
 
 const createApp = (database: Knex) => {
   const app = express();
@@ -18,6 +19,8 @@ const createApp = (database: Knex) => {
   app.request.database = connection(database);
   app.use(json({}));
   app.use(morgan("dev", {}));
+  // app.use(express.static.("./tmp"));
+  app.use(express.static("public"));
   app.use(wokemonRouter);
   app.use(typesRouter);
   app.use(attackRouter);

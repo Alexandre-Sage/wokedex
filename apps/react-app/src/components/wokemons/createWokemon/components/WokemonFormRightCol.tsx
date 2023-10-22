@@ -1,7 +1,6 @@
 import { VStack, HStack, Button, Stack } from "@chakra-ui/react";
-import { ImageInput, theme } from "../../../../App";
 import { WokemonPayload } from "../../../../types/Wokemon.type";
-import { TextAreaInput } from "../../../shared/inputs";
+import { ImageInput, TextAreaInput } from "../../../shared/inputs";
 import { WokemonInfo } from "./WokemonInfo";
 import { FormSectionLayout } from "../WokemonForm";
 

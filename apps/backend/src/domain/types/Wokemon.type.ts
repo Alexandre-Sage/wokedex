@@ -30,7 +30,7 @@ interface WokemonAttack extends MetaData {
   attackId: AttackId;
 }
 
-interface WokemonAttackRow extends ObjectToDbTypeMapper<WokemonImage> {}
+interface WokemonAttackRow extends ObjectToDbTypeMapper<WokemonAttack> {}
 
 export {
   Wokemon,

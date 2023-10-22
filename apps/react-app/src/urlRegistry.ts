@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:4447";
+export const baseUrl = "http://0.0.0.0:4447";
 const urlRegistry = {
   wokemons: {
     base: `${baseUrl}/wokemons`,
@@ -10,6 +10,8 @@ const urlRegistry = {
   },
   attack: {
     base: `${baseUrl}/attacks`,
+    getById: (id: string) => `${baseUrl}/attacks/${id}`,
+
   },
 };
 export { urlRegistry };

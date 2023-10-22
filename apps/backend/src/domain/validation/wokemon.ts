@@ -1,4 +1,4 @@
-import { z, string, date, nullable, optional, number, coerce } from "zod";
+import { z, string, date, nullable, optional, number, coerce,array } from "zod";
 import { Wokemon } from "../types";
 
 const ZodWokemon = z.object({
@@ -7,6 +7,8 @@ const ZodWokemon = z.object({
   height: coerce.number(),
   weight: coerce.number(),
   encounterPlace: optional(string()),
+  types: array(string()),
+  attacks: array(string())
 });
 
 
